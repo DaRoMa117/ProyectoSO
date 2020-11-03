@@ -49,6 +49,8 @@
             this.mas1hora = new System.Windows.Forms.RadioButton();
             this.conectar = new System.Windows.Forms.Button();
             this.desconectar = new System.Windows.Forms.Button();
+            this.dameConectados = new System.Windows.Forms.Button();
+            this.conectadosLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +111,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(937, 521);
+            this.groupBox1.Size = new System.Drawing.Size(834, 521);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Peticion";
@@ -292,11 +294,30 @@
             this.desconectar.UseVisualStyleBackColor = true;
             this.desconectar.Click += new System.EventHandler(this.desconectar_Click);
             // 
+            // dameConectados
+            // 
+            this.dameConectados.Location = new System.Drawing.Point(912, 86);
+            this.dameConectados.Name = "dameConectados";
+            this.dameConectados.Size = new System.Drawing.Size(181, 71);
+            this.dameConectados.TabIndex = 11;
+            this.dameConectados.Text = "CONECTADOS";
+            this.dameConectados.UseVisualStyleBackColor = true;
+            this.dameConectados.Click += new System.EventHandler(this.dameConectados_Click);
+            // 
+            // conectadosLabel
+            // 
+            this.conectadosLabel.Location = new System.Drawing.Point(912, 194);
+            this.conectadosLabel.Name = "conectadosLabel";
+            this.conectadosLabel.Size = new System.Drawing.Size(181, 416);
+            this.conectadosLabel.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1027, 692);
+            this.ClientSize = new System.Drawing.Size(1160, 692);
+            this.Controls.Add(this.conectadosLabel);
+            this.Controls.Add(this.dameConectados);
             this.Controls.Add(this.desconectar);
             this.Controls.Add(this.conectar);
             this.Controls.Add(this.groupBox1);
@@ -333,6 +354,8 @@
         private System.Windows.Forms.TextBox UsuarioPerdidas;
         private System.Windows.Forms.Button botonIniciar;
         private System.Windows.Forms.Button botonRegistro;
+        private System.Windows.Forms.Button dameConectados;
+        private System.Windows.Forms.Label conectadosLabel;
     }
 }
 
