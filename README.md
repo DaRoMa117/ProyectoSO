@@ -5,3 +5,4 @@ Versión 1 reverificada por Daniel Román Martín
 
 ## Versión 2
 Versión 2 generada por Adrià Calvo Lozano
+Versión 2 verificada por Andrea Pujals Bocero
