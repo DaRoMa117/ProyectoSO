@@ -47,9 +47,7 @@
             this.contraseñaRegistrar = new System.Windows.Forms.TextBox();
             this.PartidasPerdidas = new System.Windows.Forms.RadioButton();
             this.mas1hora = new System.Windows.Forms.RadioButton();
-            this.conectar = new System.Windows.Forms.Button();
             this.desconectar = new System.Windows.Forms.Button();
-            this.dameConectados = new System.Windows.Forms.Button();
             this.conectadosLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -272,17 +270,6 @@
             this.mas1hora.Text = "Dime usuarios que hayan jugado una partida de mas de 1 hora";
             this.mas1hora.UseVisualStyleBackColor = true;
             // 
-            // conectar
-            // 
-            this.conectar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.conectar.Location = new System.Drawing.Point(39, 33);
-            this.conectar.Name = "conectar";
-            this.conectar.Size = new System.Drawing.Size(156, 49);
-            this.conectar.TabIndex = 7;
-            this.conectar.Text = "CONECTAR";
-            this.conectar.UseVisualStyleBackColor = true;
-            this.conectar.Click += new System.EventHandler(this.conectar_Click);
-            // 
             // desconectar
             // 
             this.desconectar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -293,16 +280,6 @@
             this.desconectar.Text = "DESCONECTAR";
             this.desconectar.UseVisualStyleBackColor = true;
             this.desconectar.Click += new System.EventHandler(this.desconectar_Click);
-            // 
-            // dameConectados
-            // 
-            this.dameConectados.Location = new System.Drawing.Point(912, 86);
-            this.dameConectados.Name = "dameConectados";
-            this.dameConectados.Size = new System.Drawing.Size(181, 71);
-            this.dameConectados.TabIndex = 11;
-            this.dameConectados.Text = "CONECTADOS";
-            this.dameConectados.UseVisualStyleBackColor = true;
-            this.dameConectados.Click += new System.EventHandler(this.dameConectados_Click);
             // 
             // conectadosLabel
             // 
@@ -317,9 +294,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1160, 692);
             this.Controls.Add(this.conectadosLabel);
-            this.Controls.Add(this.dameConectados);
             this.Controls.Add(this.desconectar);
-            this.Controls.Add(this.conectar);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
@@ -339,7 +314,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton PartidasPerdidas;
         private System.Windows.Forms.RadioButton mas1hora;
-        private System.Windows.Forms.Button conectar;
         private System.Windows.Forms.TextBox contraseñaRegistrar;
         private System.Windows.Forms.Button desconectar;
         private System.Windows.Forms.RadioButton FechaContraseña;
@@ -354,7 +328,6 @@
         private System.Windows.Forms.TextBox UsuarioPerdidas;
         private System.Windows.Forms.Button botonIniciar;
         private System.Windows.Forms.Button botonRegistro;
-        private System.Windows.Forms.Button dameConectados;
         private System.Windows.Forms.Label conectadosLabel;
     }
 }
