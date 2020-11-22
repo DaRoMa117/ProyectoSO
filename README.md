@@ -10,4 +10,4 @@
 * Versión 2 verificada por Andrea Pujals Bocero
 
 ## Versión 3
-* Versión 2 generada por Andrea Pujals Bocero
+* Versión 3 generada por Andrea Pujals Bocero
