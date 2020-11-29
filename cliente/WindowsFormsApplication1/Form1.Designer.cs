@@ -44,12 +44,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.FechaContraseña = new System.Windows.Forms.RadioButton();
-            this.contraseñaRegistrar = new System.Windows.Forms.TextBox();
+            this.contrasenaRegistrar = new System.Windows.Forms.TextBox();
             this.PartidasPerdidas = new System.Windows.Forms.RadioButton();
             this.mas1hora = new System.Windows.Forms.RadioButton();
             this.desconectar = new System.Windows.Forms.Button();
             this.conectadosLabel = new System.Windows.Forms.Label();
+            this.conectadosGrid = new System.Windows.Forms.DataGridView();
+            this.botonInvitar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.conectadosGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -98,7 +101,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.FechaContraseña);
-            this.groupBox1.Controls.Add(this.contraseñaRegistrar);
+            this.groupBox1.Controls.Add(this.contrasenaRegistrar);
             this.groupBox1.Controls.Add(this.PartidasPerdidas);
             this.groupBox1.Controls.Add(this.mas1hora);
             this.groupBox1.Controls.Add(this.label2);
@@ -237,12 +240,12 @@
             this.FechaContraseña.Text = "Dime fecha y hora del jugador que tenga como contraseña:";
             this.FechaContraseña.UseVisualStyleBackColor = true;
             // 
-            // contraseñaRegistrar
+            // contrasenaRegistrar
             // 
-            this.contraseñaRegistrar.Location = new System.Drawing.Point(155, 158);
-            this.contraseñaRegistrar.Name = "contraseñaRegistrar";
-            this.contraseñaRegistrar.Size = new System.Drawing.Size(178, 19);
-            this.contraseñaRegistrar.TabIndex = 9;
+            this.contrasenaRegistrar.Location = new System.Drawing.Point(155, 158);
+            this.contrasenaRegistrar.Name = "contrasenaRegistrar";
+            this.contrasenaRegistrar.Size = new System.Drawing.Size(178, 19);
+            this.contrasenaRegistrar.TabIndex = 9;
             // 
             // PartidasPerdidas
             // 
@@ -285,14 +288,43 @@
             // 
             this.conectadosLabel.Location = new System.Drawing.Point(912, 194);
             this.conectadosLabel.Name = "conectadosLabel";
-            this.conectadosLabel.Size = new System.Drawing.Size(181, 416);
+            this.conectadosLabel.Size = new System.Drawing.Size(181, 41);
             this.conectadosLabel.TabIndex = 12;
+            // 
+            // conectadosGrid
+            // 
+            this.conectadosGrid.AllowUserToAddRows = false;
+            this.conectadosGrid.AllowUserToDeleteRows = false;
+            this.conectadosGrid.AllowUserToResizeColumns = false;
+            this.conectadosGrid.AllowUserToResizeRows = false;
+            this.conectadosGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.conectadosGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.conectadosGrid.Location = new System.Drawing.Point(908, 89);
+            this.conectadosGrid.Name = "conectadosGrid";
+            this.conectadosGrid.ReadOnly = true;
+            this.conectadosGrid.RowHeadersVisible = false;
+            this.conectadosGrid.RowTemplate.Height = 24;
+            this.conectadosGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.conectadosGrid.Size = new System.Drawing.Size(240, 150);
+            this.conectadosGrid.TabIndex = 0;
+            // 
+            // botonInvitar
+            // 
+            this.botonInvitar.Location = new System.Drawing.Point(944, 298);
+            this.botonInvitar.Name = "botonInvitar";
+            this.botonInvitar.Size = new System.Drawing.Size(149, 32);
+            this.botonInvitar.TabIndex = 13;
+            this.botonInvitar.Text = "INVITAR";
+            this.botonInvitar.UseVisualStyleBackColor = true;
+            this.botonInvitar.Click += new System.EventHandler(this.botonInvitar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1160, 692);
+            this.Controls.Add(this.botonInvitar);
+            this.Controls.Add(this.conectadosGrid);
             this.Controls.Add(this.conectadosLabel);
             this.Controls.Add(this.desconectar);
             this.Controls.Add(this.groupBox1);
@@ -302,6 +334,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.conectadosGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -314,7 +347,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton PartidasPerdidas;
         private System.Windows.Forms.RadioButton mas1hora;
-        private System.Windows.Forms.TextBox contraseñaRegistrar;
+        private System.Windows.Forms.TextBox contrasenaRegistrar;
         private System.Windows.Forms.Button desconectar;
         private System.Windows.Forms.RadioButton FechaContraseña;
         private System.Windows.Forms.Label label5;
@@ -329,6 +362,8 @@
         private System.Windows.Forms.Button botonIniciar;
         private System.Windows.Forms.Button botonRegistro;
         private System.Windows.Forms.Label conectadosLabel;
+        private System.Windows.Forms.DataGridView conectadosGrid;
+        private System.Windows.Forms.Button botonInvitar;
     }
 }
 

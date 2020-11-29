@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -19,9 +20,11 @@ namespace WindowsFormsApplication1
         string nombre;
         string usuarioo;
         string contraseña;
-        Boolean conectado = false;
-        
-        delegate void delegadoEscribir(string mensaje);
+        Boolean conectado = false; 
+        DataTable tabla = new DataTable();
+        string mensajeInvitacion;
+
+        delegate void delegadoDatagrid(DataTable table);
 
         public Form1()
         {
@@ -30,13 +33,28 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
-
+            this.conectadosGrid.DataError += new DataGridViewDataErrorEventHandler(conectadosGrid_DataError);
+            this.tabla.Columns.Add("Usuarios conectados");
+            this.conectadosGrid.DataSource = this.tabla;
         }
 
-        public void mensajeLabel(string mensajee)
+        private void conectadosGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            conectadosLabel.Text = mensajee;
+            if (e.Exception != null && e.Context == DataGridViewDataErrorContexts.Commit)
+            {
+                MessageBox.Show("CustomerID value must be unique.");
+            }
+        }
+
+        public void dataGrid(DataTable table)
+        {
+            this.conectadosGrid.DataSource = null;
+            this.conectadosGrid.Update();
+            this.conectadosGrid.Refresh();
+            this.conectadosGrid.DataSource = table;
+            this.conectadosGrid.ClearSelection();
+            this.conectadosGrid.Update();
+            this.conectadosGrid.Refresh();
         }
 
         private void atenderServidor()
@@ -54,6 +72,10 @@ namespace WindowsFormsApplication1
                 {
                     case 1:
                         MessageBox.Show(mensaje);
+                        this.BackColor = Color.Gray;
+                        atender.Abort();
+                        server.Shutdown(SocketShutdown.Both);
+                        server.Close();
                         break;
 
                     case 2:
@@ -65,6 +87,7 @@ namespace WindowsFormsApplication1
                             server.Shutdown(SocketShutdown.Both);
                             server.Close();
                         }
+
                         else if (mensaje == "errorr")
                         {
                             MessageBox.Show("Contraseña incorrecta => desconectado");
@@ -73,6 +96,16 @@ namespace WindowsFormsApplication1
                             server.Shutdown(SocketShutdown.Both);
                             server.Close();
                         }
+
+                        else if (mensaje == "errorrr")
+                        {
+                            MessageBox.Show("Este usuario ya está conectado");
+                            this.BackColor = Color.Gray;
+                            atender.Abort();
+                            server.Shutdown(SocketShutdown.Both);
+                            server.Close();
+                        }
+
                         else
                         {
                             nombre = usuarioo;
@@ -101,13 +134,49 @@ namespace WindowsFormsApplication1
                     case 6:
                         //a,b,c
                         string[] conectados = trozos[1].Split(',');
-                        string mensajee = string.Format("{0}\n",conectados[0]);
-                        for (i = 1; i < conectados.Length; i++)
+                        this.tabla.Rows.Clear();
+                        for (i = 0; i < (conectados.Length - 1); i++)
                         {
-                            mensajee = string.Format("{0}{1}\n", mensajee, conectados[i]);
+                            this.tabla.Rows.Add(conectados[i]);
                         }
-                        delegadoEscribir delegado = new delegadoEscribir(mensajeLabel);
-                        conectadosLabel.Invoke(delegado, new object[] { mensajee });
+                        delegadoDatagrid delegado = new delegadoDatagrid(dataGrid);
+                        conectadosGrid.Invoke(delegado, new object[] { this.tabla });
+                        break;
+
+                    case 7:
+                        //nombre anfitrion,num partida
+                        string[] anfitrion = trozos[1].Split(',');
+                        string pregunta = string.Format("{0} quiere colaborar contigo. ¿Aceptas?", anfitrion[0]);
+                        var invitacion = MessageBox.Show(pregunta, "Invitación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (invitacion == DialogResult.Yes)
+                        {
+                            string respuesta = "8/" + anfitrion[1] + "/si";
+                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(respuesta);
+                            server.Send(msg);
+                        }
+
+                        else
+                        {
+                            string respuesta = "8/" + anfitrion[1] + "/no";
+                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(respuesta);
+                            server.Send(msg);
+                        }
+
+                        break;
+
+                    case 8:
+                        // numPartida, si o no
+                        string[] partida = trozos[1].Split(',');
+                        if (partida[1] == "si")
+                        {
+                            Form2 juego = new Form2();
+                            juego.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("PARTIDA RECHAZADA");
+                        }
                         break;
                 }
             }
@@ -115,20 +184,53 @@ namespace WindowsFormsApplication1
 
         private void botonRegistro_Click(object sender, EventArgs e)
         {
-            if ((usuarioRegistrar.Text.Trim() != string.Empty) && (contraseñaRegistrar.Text.Trim() != string.Empty))
+            if (!conectado)
             {
-                string usuario = usuarioRegistrar.Text.Trim(); //el método Trim elimina los espacios en blanco tanto al principio como al final
-                string contraseña = contraseñaRegistrar.Text.Trim();
-                string mensaje = "1/" + usuario + "/" + contraseña;
+                if ((usuarioRegistrar.Text.Trim() != string.Empty) && (contrasenaRegistrar.Text.Trim() != string.Empty))
+                {
+                    IPAddress direc = IPAddress.Parse("192.168.56.102");
+                    IPEndPoint ipep = new IPEndPoint(direc, 7053);
+                    //IPAddress direc = IPAddress.Parse("147.83.117.22");
+                    //IPEndPoint ipep = new IPEndPoint(direc, 50069);
 
-                // Enviamos al servidor el mensaje
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
+                    //Creamos el socket 
+                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    try
+                    {
+                        server.Connect(ipep);//Intentamos conectar el socket
+                        MessageBox.Show("Conectado");
+                        this.BackColor = Color.Green;
+                    }
+                    catch (SocketException)
+                    {
+                        //Si hay excepcion imprimimos error y salimos del programa con return 
+                        MessageBox.Show("No se ha podido conectar con el servidor");
+                        return;
+                    }
+
+                    ThreadStart ts = delegate { atenderServidor(); };
+                    atender = new Thread(ts);
+                    atender.Start();
+
+                    string usuario = usuarioRegistrar.Text.Trim(); //el método Trim elimina los espacios en blanco tanto al principio como al final
+                    string contraseña = contrasenaRegistrar.Text.Trim();
+                    string mensaje = "1/" + usuario + "/" + contraseña;
+
+                    // Enviamos al servidor el mensaje
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                }
+                else
+                {
+                    MessageBox.Show("El usuario y/o la contraseña estan vacios");
+                }
             }
+
             else
             {
-                MessageBox.Show("El usuario y/o la contraseña estan vacios");
+                MessageBox.Show("Ya estás conectado con un usuario");
             }
+
         }
 
         private void botonIniciar_Click(object sender, EventArgs e)
@@ -138,7 +240,7 @@ namespace WindowsFormsApplication1
                 if ((usuarioIniciar.Text.Trim() != string.Empty) && (contrasenaIniciar.Text.Trim() != string.Empty))
                 {
                     IPAddress direc = IPAddress.Parse("192.168.56.102");
-                    IPEndPoint ipep = new IPEndPoint(direc, 5038);
+                    IPEndPoint ipep = new IPEndPoint(direc, 7086);
                     //IPAddress direc = IPAddress.Parse("147.83.117.22");
                     //IPEndPoint ipep = new IPEndPoint(direc, 50069);
 
@@ -177,6 +279,42 @@ namespace WindowsFormsApplication1
             else
             {
                 MessageBox.Show("Ya estás conectado con un usuario");
+            }
+        }
+
+        private void botonInvitar_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show(Convert.ToString(this.conectadosGrid.SelectedRows.Count));
+            if (this.conectadosGrid.SelectedRows.Count > 0)
+            {
+                mensajeInvitacion = "7/";
+                foreach (DataGridViewRow fila in conectadosGrid.SelectedRows)
+                {
+                    //MessageBox.Show(fila.Cells[0].Value.ToString());
+                    if (fila.Cells[0].Value.ToString() != nombre)
+                    {
+                        mensajeInvitacion = string.Format("{0}{1}/", mensajeInvitacion, fila.Cells[0].Value.ToString());
+                    }
+                    else
+                    {
+                        MessageBox.Show("Te has seleccionado a ti mismo, tú nombre no se tendrá en cuenta a la hora de enviar las invitaciones");
+                    }
+                }
+                if ((this.conectadosGrid.SelectedRows.Count == 1) && (this.conectadosGrid.SelectedRows[0].Cells[0].Value.ToString() == nombre))
+                {
+                    MessageBox.Show("Sólo te has seleccionado a ti mismo. No se envía invitación.");
+                }
+                else
+                {
+                    //MessageBox.Show(mensajeInvitacion);
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensajeInvitacion);
+                    server.Send(msg);
+                }
+            }
+
+            else
+            {
+                MessageBox.Show("No se ha seleccionado a nadie");
             }
         }
    
