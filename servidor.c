@@ -19,7 +19,7 @@ typedef struct {
 	int num;
 } ListaConectados;
 
-typedef char TablaPartidas[10][10]; //filas vs columnas.
+typedef char TablaPartidas[10][10]; //filas vs columnas
 
 char consulta[512];
 ListaConectados lista;

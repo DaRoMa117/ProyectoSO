@@ -212,11 +212,11 @@ namespace WindowsFormsApplication1
                     atender = new Thread(ts);
                     atender.Start();
 
-                    string usuario = usuarioRegistrar.Text.Trim(); //el método Trim elimina los espacios en blanco tanto al principio como al final
+                    string usuario = usuarioRegistrar.Text.Trim(); //el método Trim elimina los espacios en blanco tanto al principio como al final.
                     string contraseña = contrasenaRegistrar.Text.Trim();
                     string mensaje = "1/" + usuario + "/" + contraseña;
 
-                    // Enviamos al servidor el mensaje
+                    // Enviamos al servidor el mensaje.
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
                 }

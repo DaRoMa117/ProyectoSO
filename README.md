@@ -15,3 +15,4 @@
 
 ## Versión 4
 * Versión 4 generada por Daniel Román Martín
+* Versión 4 verificada por Adrià Calvo Lozano
