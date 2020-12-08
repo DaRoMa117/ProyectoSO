@@ -9,16 +9,21 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    public partial class Form2 : Form
+    public partial class Instrucciones : Form
     {
-        public Form2()
+        public Instrucciones()
         {
             InitializeComponent();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void Instrucciones_Load(object sender, EventArgs e)
         {
-            label.Text = "Bienvenido";
+
+        }
+
+        private void botonCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

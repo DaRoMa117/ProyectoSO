@@ -16,3 +16,6 @@
 ## Versión 4
 * Versión 4 generada por Daniel Román Martín
 * Versión 4 verificada por Adrià Calvo Lozano
+
+## Versión 5
+* Versión 5 generada por Adrià Calvo Lozano
