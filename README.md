@@ -19,3 +19,4 @@
 
 ## Versión 5
 * Versión 5 generada por Adrià Calvo Lozano
+* Versión 5 verificada por Andrea Pujals Bocero
