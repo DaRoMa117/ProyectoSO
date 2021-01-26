@@ -141,7 +141,7 @@ void registrarUsuario (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char us
 	row = mysql_fetch_row (resultado);
 	if (row == NULL){
 		int err;
-		sprintf(consulta, "INSERT INTO JUGADOR VALUES('%d','%s','%s')", idd, usuario, contrasena);
+		sprintf(consulta, "INSERT INTO JUGADOR VALUES('%d','%s','%s', '0', '0')", idd, usuario, contrasena);
 		err=mysql_query (conn, consulta);
 		if (err!=0) {
 			printf ("1/Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
@@ -152,6 +152,101 @@ void registrarUsuario (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char us
 	}
 	else{
 		sprintf(respuesta, "1/%s: ya existe como usuario", usuario);
+	}
+}
+
+// Se da de baja al usuario recibido en la BBDD.
+// Se devuelve una respuesta: 17/mensaje.
+void bajaUsuario (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuario[20], char contrasena[20], char respuesta[512]){
+	int idd;
+	sprintf (consulta, "SELECT JUGADOR.ID FROM JUGADOR WHERE JUGADOR.USUARIO = '%s' AND JUGADOR.CONTRASENA = '%s'", usuario, contrasena);
+	consultasBBDD (conn, consulta, respuesta);
+	
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado);
+	if (row != NULL){
+		int err;
+		idd = atoi(row[0]);
+		sprintf(consulta, "DELETE FROM JUGADOR WHERE JUGADOR.ID = '%d' AND JUGADOR.USUARIO = '%s' AND JUGADOR.CONTRASENA = '%s'", idd, usuario, contrasena);
+		err = mysql_query (conn, consulta);
+		if (err!=0) {
+			printf ("17/Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+			exit (1);
+		}
+		else
+			sprintf(respuesta, "17/%s: eliminado correctamente", usuario);
+	}
+	else{
+		sprintf(respuesta, "17/%s: datos incorrectos", usuario);
+	}
+}
+
+// Se guardan los datos de la partida una vez se ha terminado.
+// No devuelve nada al cliente.
+void guardarPartida (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char fecha[20], char hora[20], char miembros[512], char res[60], char respuesta[512]){
+	char aux[512];
+	strcpy(aux, miembros);
+	char *p = strtok(miembros, "-");
+	
+	int idPartida;
+	strcpy (consulta, "SELECT PARTIDA.ID FROM PARTIDA ORDER BY ID DESC");
+	consultasBBDD (conn, consulta, respuesta);
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado);
+	if (row == NULL)
+		printf("No se han obtenido datos en la consulta\n");
+	else
+		idPartida = atoi(row[0]) + 1;
+	
+	sprintf (consulta, "INSERT INTO PARTIDA VALUES (%d, '%s' , '%s', '%s', '%s')", idPartida, fecha, hora, aux, res);
+	consultasBBDD (conn, consulta, respuesta);
+	
+	while(p != NULL){
+		int idJugador;
+		sprintf (consulta, "SELECT JUGADOR.ID FROM JUGADOR WHERE JUGADOR.USUARIO = '%s'", p);
+		consultasBBDD (conn, consulta, respuesta);
+		resultado = mysql_store_result (conn);
+		row = mysql_fetch_row (resultado);
+		if (row == NULL)
+			printf("No se han obtenido datos en la consulta\n");
+		else{
+			idJugador = atoi(row[0]);
+			sprintf (consulta, "INSERT INTO PUENTE VALUES (%d, %d)", idJugador, idPartida);
+			consultasBBDD (conn, consulta, respuesta);
+		}
+		
+		if (strcmp(res, "VICTORIA") == 0)
+		{
+			int numVictorias = 0;
+			sprintf (consulta, "SELECT JUGADOR.NUMVICTORIAS FROM JUGADOR WHERE JUGADOR.USUARIO = '%s'", p);
+			consultasBBDD (conn, consulta, respuesta);
+			resultado = mysql_store_result (conn);
+			row = mysql_fetch_row (resultado);
+			if (row == NULL)
+				printf("No se han obtenido datos en la consulta\n");
+			else{
+				numVictorias = atoi(row[0]) + 1;
+				sprintf (consulta, "UPDATE JUGADOR SET JUGADOR.NUMVICTORIAS = '%d' WHERE JUGADOR.USUARIO = '%s'", numVictorias, p);
+				consultasBBDD (conn, consulta, respuesta);
+			}
+		}
+		else
+		{
+			int numDerrotas = 0;
+			int idj;
+			sprintf (consulta, "SELECT JUGADOR.NUMDERROTAS FROM JUGADOR WHERE JUGADOR.USUARIO = '%s'", p);
+			consultasBBDD (conn, consulta, respuesta);
+			resultado = mysql_store_result (conn);
+			row = mysql_fetch_row (resultado);
+			if (row == NULL)
+				printf("No se han obtenido datos en la consulta\n");
+			else{
+				numDerrotas = atoi(row[0]) + 1;
+				sprintf (consulta, "UPDATE JUGADOR SET JUGADOR.NUMDERROTAS = '%d' WHERE JUGADOR.USUARIO = '%s'", numDerrotas, p);
+				consultasBBDD (conn, consulta, respuesta);
+			}
+		}
+		p = strtok(NULL, "-");
 	}
 }
 
@@ -200,62 +295,87 @@ int iniciarUsuario (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuar
 		printf ("Añadido\n");
 }
 
-// Se consulta las partidas que han durado mas de una hora.
-// Se devuelve una respuesta: 3/partida1,partida2,...,partidaN.
-void consultaMasUnaHora (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char respuesta[512]){
-	strcpy(consulta,"SELECT DISTINCT JUGADOR.USUARIO FROM (JUGADOR, PUENTE, PARTIDA) WHERE PARTIDA.DURACION > 60 AND PARTIDA.ID = PUENTE.ID_P AND PUENTE.ID_J = JUGADOR.ID"); 
+// Se consulta el resultado de la partida anterior jugada por el usuario que hace la consulta.
+// Se devuelve una respuesta: 3/resultado.
+void consultaResultadoPartidaAnterior (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuario[20], char respuesta[512]){
+	char anterior[20];
+	sprintf(consulta,"SELECT PARTIDA.RESULTADO FROM (JUGADOR, PUENTE, PARTIDA) WHERE JUGADOR.USUARIO = '%s' AND JUGADOR.ID = PUENTE.ID_J AND PUENTE.ID_P = PARTIDA.ID", usuario); 
 	consultasBBDD (conn, consulta, respuesta);
 	resultado = mysql_store_result (conn);
 	row = mysql_fetch_row (resultado);	
 	if (row == NULL)
-		strcpy (respuesta, "3/No se han obtenido datos en la consulta\n");
-	else
-		sprintf (respuesta, "3/%s, ", row[0]);
-	row = mysql_fetch_row (resultado);
-	while (row !=NULL) {
-		sprintf(respuesta, "%s%s, ", respuesta, row[0]);
-		row = mysql_fetch_row (resultado);
+		strcpy (respuesta, "3/DESCONOCIDO/");
+	else{
+		strcpy(respuesta, "3/");
+		while (row != NULL) {
+			strcpy(anterior, row[0]);
+			row = mysql_fetch_row (resultado);
+		}
+		sprintf(respuesta, "%s%s/ ", respuesta, anterior);
 	}
 }
 
-// Se consulta las partidas que ha perdido el usuario recibido.
-// Se devuelve una respuesta: 3/partida1,partida2,...,partidaN.
-void consultaId (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuario[20], char respuesta[512]){
-	sprintf (consulta, "SELECT PARTIDA.ID FROM (JUGADOR, PARTIDA, PUENTE) WHERE JUGADOR.USUARIO = '%s' AND JUGADOR.ID = PUENTE.ID_J AND PUENTE.ID_P = PARTIDA.ID AND PARTIDA.RESULTADO = 'DERROTA'", usuario);
+// Se consulta el numero de victorias del usuario que hace la consulta.
+// Se devuelve una respuesta: 4/victorias.
+void consultaNumVictorias (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuario[20], char respuesta[512]){
+	sprintf (consulta, "SELECT JUGADOR.NUMVICTORIAS FROM JUGADOR WHERE JUGADOR.USUARIO = '%s'", usuario);
 	consultasBBDD (conn, consulta, respuesta);
 	resultado = mysql_store_result (conn);
 	row = mysql_fetch_row (resultado); 
 	if (row == NULL)
-		strcpy (respuesta, "4/No se han obtenido datos en la consulta\n");
+		strcpy (respuesta, "4/ERROR/");
 	else
-		sprintf (respuesta, "4/%s, ", row[0]);
-	row = mysql_fetch_row (resultado);
-	while (row !=NULL) {
-		sprintf(respuesta, "%s%s, ", respuesta, row[0]);
-		row = mysql_fetch_row (resultado);
+		sprintf (respuesta, "4/%s/", row[0]);
+}
+
+// Se consulta el numero de derrotas del usuario que hace la consulta.
+// Se devuelve una respuesta: 5/derrotas.
+void consultaNumDerrotas (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuario[20], char respuesta[512]){
+	sprintf (consulta, "SELECT JUGADOR.NUMDERROTAS FROM JUGADOR WHERE JUGADOR.USUARIO = '%s'", usuario);
+	consultasBBDD (conn, consulta, respuesta);
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado); 
+	if (row == NULL)
+		strcpy (respuesta, "5/ERROR/");
+	else
+		sprintf (respuesta, "5/%s/", row[0]);
+}
+
+// Se consulta la fecha y la hora de la ultima partida jugada por el usuario que hace la consulta.
+// Se devuelve una respuesta: 19/fecha/hora.
+void consultaFechaHora (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char usuario[20], char respuesta[512]){
+	char anteriorFecha[20];
+	char anteriorHora[20];
+	sprintf (consulta, "SELECT PARTIDA.FECHA, PARTIDA.HORA FROM (JUGADOR, PARTIDA, PUENTE) WHERE JUGADOR.USUARIO = '%s' AND JUGADOR.ID = PUENTE.ID_J AND PUENTE.ID_P = PARTIDA.ID", usuario);
+	consultasBBDD (conn, consulta, respuesta);
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado); 
+	if (row == NULL)
+		strcpy (respuesta, "19/ERROR,ERROR,");
+	else{
+		while (row != NULL) {
+			strcpy(anteriorFecha, row[0]);
+			strcpy(anteriorHora, row[1]);
+			row = mysql_fetch_row (resultado);
+		}
+		sprintf (respuesta, "19/19,%s,%s,", anteriorFecha, anteriorHora);
 	}
 }
 
-// Se consulta la fecha y la hora de las partidas jugadas por el usuario que tiene como contrasenya la recibida.
-// Se devuelve una respuesta: 3/fechayhora1,fechayhora2,...,fechayhoraN.
-void consultaFyH (MYSQL *conn, MYSQL_RES *resultado, MYSQL_ROW row, char contrasena[20], char respuesta[512]){ //revisar formato
-	sprintf (consulta,"SELECT FECHAYHORA FROM (JUGADOR, PARTIDA, PUENTE) WHERE JUGADOR.CONTRASENA = '%s' AND PARTIDA.ID = PUENTE.ID_P AND PUENTE.ID_J = JUGADOR.ID", contrasena);	
-	consultasBBDD (conn, consulta, respuesta);
-	resultado = mysql_store_result (conn);
-	row = mysql_fetch_row (resultado);
-	if (row == NULL)
-		strcpy (respuesta, "5/No se han obtenido datos en la consulta\n");
-	else
-		sprintf (respuesta, "5/FECHA Y HORA: %s, ", row[0]);
-	row = mysql_fetch_row (resultado);
-	while (row !=NULL){
-		sprintf(respuesta, "%sFECHA Y HORA: %s, ", respuesta, row[0]);
-		row = mysql_fetch_row (resultado);
+void dameMiembros (TablaPartidas *tpartidas, int numPartida, char respuesta[512]){
+	int i = 0;
+	sprintf(respuesta, "%s/", respuesta);
+	for (i = 0; i <= 20; i = i + 2){
+		if (strcmp(tpartidas[numPartida][i + 1],"") != 0)
+		{
+			sprintf(respuesta, "%s%s-", respuesta, tpartidas[numPartida][i]);
+		}
 	}
+	sprintf(respuesta, "%s/", respuesta);
 }
 
 // Se anyade al anfitrion a "TablaPartidas".
-// DEvuelve 0 si se ha anyadido correctamente, -1 si la tabla esta llena o -2 si el usuario no se encuentra en la lista de conectados.
+// Devuelve 0 si se ha anyadido correctamente, -1 si la tabla esta llena o -2 si el usuario no se encuentra en la lista de conectados.
 int anadirAnfitrion(ListaConectados *lista, TablaPartidas *tpartidas, int sock, char host[20], char aux[10]){
 	char anfitrion[20];
 	int encontrado = 0;
@@ -418,6 +538,7 @@ void *AtenderCliente(void *socket){
 	char usuario[20];
 	char contrasena[20];
 	int cont = 0;
+	int sockAnfitrion;
 	
 	// Bucle para consultar las peticiones del cliente.
 	int end = 0;
@@ -436,6 +557,9 @@ void *AtenderCliente(void *socket){
 			pthread_mutex_lock( &mutex );
 			eliminaConectado (&lista, usuario);
 			pthread_mutex_unlock( &mutex );
+			char respuestaDesconectar[512];
+			strcpy(respuestaDesconectar, "0/");
+			write (sock_conn, respuestaDesconectar, strlen(respuestaDesconectar));
 			end = 1;
 		}
 		else if (codigo == 1){ // Registro del usuario.
@@ -457,21 +581,24 @@ void *AtenderCliente(void *socket){
 			if (res == -1)
 				end = 1;
 		}
-		else if (codigo == 3){ // Consulta de las partidas que han durado mas de una hora.
-			consultaMasUnaHora(conn, resultado, row, respuesta);
-		}
-		else if (codigo == 4){ // Consulta de las partidas perdidas por el usuario recibido.
+		else if (codigo == 3){ // Consulta del resultado de la ultima partida jugada por el usuario.
 			p = strtok( NULL, "/");
 			strcpy (usuario, p);
-			consultaId(conn, resultado, row, usuario, respuesta);	
+			consultaResultadoPartidaAnterior(conn, resultado, row, usuario, respuesta);
 		}
-		else if (codigo == 5){ // Consulta de las fechas y horas de las partidas jugadas por el usuario con la contrasenya recibida.
+		else if (codigo == 4){ // Consulta el numero de victorias del usuario.
 			p = strtok( NULL, "/");
-			strcpy (contrasena, p);
-			consultaFyH(conn, resultado, row, contrasena, respuesta);
+			strcpy (usuario, p);
+			consultaNumVictorias(conn, resultado, row, usuario, respuesta);	
+		}
+		else if (codigo == 5){ // Consulta el numero de derrotas del usuario.
+			p = strtok( NULL, "/");
+			strcpy (usuario, p);
+			consultaNumDerrotas(conn, resultado, row, usuario, respuesta);
 		}
 		else if (codigo == 7){ // Se envian las invitaciones a los usuarios que ha invitado el anfitrion.
 			char anfitrion[20];
+			sockAnfitrion = sock_conn;
 			char aux[10];
 			int posicion;
 			pthread_mutex_lock( &mutex );
@@ -518,7 +645,7 @@ void *AtenderCliente(void *socket){
 			pthread_mutex_lock( &mutex );
 			respuestaInvitacion(&lista, &tpartidas, respuesta, frase, aux, aux1);
 			numPartida = atoi(aux);
-			printf("n1: %d\n", numPartida);
+			dameMiembros(&tpartidas, numPartida, respuesta);
 			if (strcmp(aux1, "0") == 0)
 			{
 				int j = 1;
@@ -546,9 +673,22 @@ void *AtenderCliente(void *socket){
 			int numPartida;
 			numPartida = atoi(p);
 			p = strtok( NULL, "/");
+			char mensaje[512];
+			strcpy(mensaje, p);
+			p = strtok( NULL, "/");
+			char pantalla[20];
+			strcpy(pantalla, p);
+			p = strtok( NULL, "/");
 			char mensajeChat[512];
 			strcpy (mensajeChat, "9/");
-			sprintf(mensajeChat, "%s%s,%s,", mensajeChat, numPantalla, p);
+			if (p != NULL)
+			{
+				sprintf(mensajeChat, "%s%s,%s,%s,%s,", mensajeChat, numPantalla, mensaje, pantalla, p);
+			}
+			else
+			{
+				sprintf(mensajeChat, "%s%s,%s,%s,", mensajeChat, numPantalla, mensaje, pantalla);
+			}
 			pthread_mutex_lock( &mutex );
 			int j = 1;
 			while(j < 20)
@@ -565,7 +705,230 @@ void *AtenderCliente(void *socket){
 			pthread_mutex_unlock( &mutex);
 		}
 		
-		if ((codigo != 0) && (codigo != 7) && (codigo != 8) && (codigo != 9)) // Se envia las respuesta en los casos 1,2,3,4,5 y 6.
+		else if (codigo == 10){ // Enviar repuesta propuesta de la primera pantalla a todos los usuarios.
+			char aux[10];
+			p = strtok( NULL, "/");
+			char numPantalla[5];
+			strcpy(numPantalla, p);
+			p = strtok( NULL, "/");
+			int numPartida;
+			numPartida = atoi(p);
+			p = strtok( NULL, "/");
+			char respuestaUno[512];
+			strcpy (respuestaUno, "10/");
+			sprintf(respuestaUno, "%s%s,%s,", respuestaUno, numPantalla, p);
+			pthread_mutex_lock( &mutex );
+			int j = 1;
+			while(j < 20)
+			{
+				obtenerSocket(&tpartidas, numPartida, j, aux);
+				if(strcmp(aux,"") != 0)
+				{
+					printf("RESPUESTA UNO: %s\n", respuestaUno);
+					int a = atoi(aux);
+					write (a, respuestaUno, strlen(respuestaUno));
+				}
+				j = j + 2;
+			}
+			pthread_mutex_unlock( &mutex);
+		}
+		
+		else if (codigo == 11){ // Abrir manual a todos los clientes menos al que ha encontrado el boton.
+			char aux[10];
+			p = strtok( NULL, "/");
+			char numPantalla[5];
+			strcpy(numPantalla, p);
+			p = strtok( NULL, "/");
+			int numPartida;
+			numPartida = atoi(p);
+			char tipoPantallaDos[512];
+			pthread_mutex_lock( &mutex );
+			int j = 1;
+			while(j < 20)
+			{
+				obtenerSocket(&tpartidas, numPartida, j, aux);
+				if(strcmp(aux,"") != 0)
+				{
+					int a = atoi(aux);
+					if (a != sock_conn)
+					{
+						strcpy (tipoPantallaDos, "11/");
+						sprintf(tipoPantallaDos, "%s%s,%s,", tipoPantallaDos, numPantalla, "segundaManual");
+						printf ("%s\n", tipoPantallaDos);
+						write (a, tipoPantallaDos, strlen(tipoPantallaDos));
+					}
+					else
+					{
+						strcpy (tipoPantallaDos, "11/");
+						sprintf(tipoPantallaDos, "%s%s,%s,", tipoPantallaDos, numPantalla, "segundaPrimera");
+						printf ("%s\n", tipoPantallaDos);
+						write (a, tipoPantallaDos, strlen(tipoPantallaDos));
+					}
+				}
+				j = j + 2;
+			}
+			pthread_mutex_unlock( &mutex);
+		}
+		
+		else if (codigo == 12){ // Enviar repuesta propuesta de la segunda pantalla a todos los usuarios.
+			char aux[10];
+			p = strtok( NULL, "/");
+			char numPantalla[5];
+			strcpy(numPantalla, p);
+			p = strtok( NULL, "/");
+			int numPartida;
+			numPartida = atoi(p);
+			p = strtok( NULL, "/");
+			char posicion[5];
+			strcpy(posicion, p);
+			p = strtok( NULL, "/");
+			char numPantallaDos[5];
+			strcpy(numPantallaDos, p);
+			p = strtok( NULL, "/");
+			char respuestaDos[512];
+			strcpy (respuestaDos, "12/");
+			sprintf(respuestaDos, "%s%s,%s,%s,%s,", respuestaDos, numPantalla, posicion, numPantallaDos, p);
+			pthread_mutex_lock( &mutex );
+			int j = 1;
+			while(j < 20)
+			{
+				obtenerSocket(&tpartidas, numPartida, j, aux);
+				if(strcmp(aux,"") != 0)
+				{
+					printf("RESPUESTA DOS: %s\n", respuestaDos);
+					int a = atoi(aux);
+					write (a, respuestaDos, strlen(respuestaDos));
+				}
+				j = j + 2;
+			}
+			pthread_mutex_unlock( &mutex);
+		}
+		
+		else if (codigo == 14){ // Enviar movimiento de las piezas del puzzle.
+			char aux[10];
+			p = strtok( NULL, "/");
+			char numPantalla[5];
+			strcpy(numPantalla, p);
+			p = strtok( NULL, "/");
+			int numPartida;
+			numPartida = atoi(p);
+			p = strtok( NULL, "/");
+			char movimientoTres[512];
+			strcpy (movimientoTres, "14/");
+			sprintf(movimientoTres, "%s%s,%s,", movimientoTres, numPantalla, p);
+			pthread_mutex_lock( &mutex );
+			int j = 1;
+			while(j < 20)
+			{
+				obtenerSocket(&tpartidas, numPartida, j, aux);
+				if(strcmp(aux,"") != 0)
+				{
+					int a = atoi(aux);
+					if (a != sock_conn)
+					{
+						printf("RESPUESTA TRES: %s\n", movimientoTres);
+						write (a, movimientoTres, strlen(movimientoTres));
+					}
+				}
+				j = j + 2;
+			}
+			pthread_mutex_unlock( &mutex);
+		}
+		
+		else if (codigo == 15){ // Enviar repuesta propuesta de la tercera pantalla a todos los usuarios.
+			char aux[10];
+			p = strtok( NULL, "/");
+			char numPantalla[5];
+			strcpy(numPantalla, p);
+			p = strtok( NULL, "/");
+			int numPartida;
+			numPartida = atoi(p);
+			p = strtok( NULL, "/");
+			char comprobacionTres[512];
+			strcpy (comprobacionTres, "15/");
+			sprintf(comprobacionTres, "%s%s,%s,", comprobacionTres, numPantalla, p);
+			pthread_mutex_lock( &mutex );
+			int j = 1;
+			while(j < 20)
+			{
+				obtenerSocket(&tpartidas, numPartida, j, aux);
+				if(strcmp(aux,"") != 0)
+				{
+					int a = atoi(aux);
+					printf("RESPUESTA TRES: %s\n", comprobacionTres);
+					write (a, comprobacionTres, strlen(comprobacionTres));
+				}
+				j = j + 2;
+			}
+			pthread_mutex_unlock( &mutex);
+		}
+		
+		else if (codigo == 16){ // Enviar repuesta propuesta de la pantalla final a todos los usuarios.
+			char aux[10];
+			p = strtok( NULL, "/");
+			char numPantalla[5];
+			strcpy(numPantalla, p);
+			p = strtok( NULL, "/");
+			int numPartida;
+			numPartida = atoi(p);
+			p = strtok( NULL, "/");
+			char propuesta[512];
+			strcpy(propuesta, p);
+			p = strtok( NULL, "/");
+			char comprobacionFinal[512];
+			strcpy (comprobacionFinal, "16/");
+			sprintf(comprobacionFinal, "%s%s,%s,%s,", comprobacionFinal, numPantalla, propuesta, p);
+			pthread_mutex_lock( &mutex );
+			int j = 1;
+			while(j < 20)
+			{
+				obtenerSocket(&tpartidas, numPartida, j, aux);
+				if(strcmp(aux,"") != 0)
+				{
+					int a = atoi(aux);
+					printf("RESPUESTA FINAL: %s\n", comprobacionFinal);
+					write (a, comprobacionFinal, strlen(comprobacionFinal));
+				}
+				j = j + 2;
+			}
+			pthread_mutex_unlock( &mutex);
+		}
+		
+		else if (codigo == 17){ // Se da de baja al jugador del que recibe usuario y contrasena.
+			p = strtok( NULL, "/");
+			strcpy (usuario, p);
+			p = strtok( NULL, "/");
+			strcpy(contrasena, p);
+			bajaUsuario(conn, resultado, row, usuario, contrasena, respuesta);
+			end = 1;
+		}
+		
+		else if (codigo == 18){ // Se guarda la partida.
+			p = strtok( NULL, ",");
+			char fecha[20];
+			strcpy (fecha, p);
+			p = strtok( NULL, ",");
+			char hora[20];
+			strcpy (hora, p);
+			p = strtok( NULL, ",");
+			char miembros[512];
+			strcpy (miembros, p);
+			p = strtok( NULL, ",");
+			char res[20];
+			strcpy (res, p);
+			if (sockAnfitrion == sock_conn)
+			{
+				guardarPartida(conn, resultado, row, fecha, hora, miembros, res, respuesta);
+			}
+		}
+		
+		else if (codigo == 19){ // Consulta la fecha y hora de la ultima partida jugada por el usuario.
+			p = strtok( NULL, "/");
+			strcpy (usuario, p);
+			consultaFechaHora(conn, resultado, row, usuario, respuesta);
+		}
+	
+		if ((codigo != 0) && (codigo != 7) && (codigo != 8) && (codigo != 9) && (codigo != 10) && (codigo != 11) && (codigo != 12) && (codigo != 14) && (codigo != 15) && (codigo != 16) && (codigo != 18)) // Se envia las respuesta en los casos 1,2,3,4,5, 6 y 17.
 		{
 			printf ("%s\n", respuesta);
 			write (sock_conn, respuesta, strlen(respuesta));
@@ -603,7 +966,7 @@ int main(int argc, char *argv[])
 	// htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	serv_adr.sin_port = htons(7126);
+	serv_adr.sin_port = htons(50069);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind");
 	// La cola de peticiones pendientes no podra ser superior a 3.

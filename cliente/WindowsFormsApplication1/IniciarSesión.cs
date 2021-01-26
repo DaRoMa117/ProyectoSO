@@ -18,6 +18,7 @@ namespace WindowsFormsApplication1
         Thread atender;
         string usuario;
         string contraseña;
+        int puerto = 7557;
         Boolean conectado = false;
         List<SalaEspera> salas = new List<SalaEspera>(); // Lista para guardas los Forms "SalaEspera".
         DataTable tabla = new DataTable(); // Tabla para implementar los usuarios conectados en la datagridview.
@@ -55,15 +56,28 @@ namespace WindowsFormsApplication1
                 server.Receive(msg2);
                 string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
                 int codigo = Convert.ToInt32(trozos[0]);
+                if (codigo == 19)
+                {
+                    trozos = Encoding.ASCII.GetString(msg2).Split(',');
+                }
                 string mensaje = trozos[1].Split('\0')[0];
 
                 switch (codigo)
                 {
+                    case 0:
+                        if (conectado == false)
+                        {
+                            MessageBox.Show("Desconectado correctamente");
+                            salas.Clear();
+                            atender.Abort();
+                            server.Shutdown(SocketShutdown.Both);
+                            server.Close();
+                        }
+                        break;
                     case 2: // Iniciar sesión.
                         if (mensaje == "error1")
                         {
                             MessageBox.Show("El usuario no existe => desconectado");
-                            this.BackColor = Color.Gray;
                             atender.Abort();
                             server.Shutdown(SocketShutdown.Both);
                             server.Close();
@@ -71,7 +85,6 @@ namespace WindowsFormsApplication1
                         else if (mensaje == "error2")
                         {
                             MessageBox.Show("Contraseña incorrecta => desconectado");
-                            this.BackColor = Color.Gray;
                             atender.Abort();
                             server.Shutdown(SocketShutdown.Both);
                             server.Close();
@@ -79,7 +92,6 @@ namespace WindowsFormsApplication1
                         else if (mensaje == "error3")
                         {
                             MessageBox.Show("El usuario introducido ya esta siendo utilizado por otro cliente.");
-                            this.BackColor = Color.Gray;
                             atender.Abort();
                             server.Shutdown(SocketShutdown.Both);
                             server.Close();
@@ -96,21 +108,16 @@ namespace WindowsFormsApplication1
                         Thread.Sleep(500);
                         break;
 
-                    case 3: // Partidas que han durado más de una hora.
-                        MessageBox.Show(mensaje);
+                    case 3: // Resultado última partida jugada por el usuario.
+                        this.salas[0].dameConsultaUno(trozos[1]);
                         break;
 
-                    case 4: // Partidas perdidas por un jugador.
-                        MessageBox.Show("Las partidas perdidas son: " + mensaje);
+                    case 4: // Número de victorias del usuario.
+                        this.salas[0].dameConsultaDos(trozos[1]);
                         break;
 
-                    case 5: // Fecha y hora de las partidas de un jugador con contraseña x.
-                        string mensajeee = string.Format("{0}\n",trozos[1]);
-                        for (i = 2; i < trozos.Length; i++)
-                        {
-                            mensajeee = string.Format("{0}{1}\n", mensajeee, trozos[i]);
-                        }
-                        MessageBox.Show(mensajeee);
+                    case 5: // Número de derrotas del usuario.
+                        this.salas[0].dameConsultaTres(trozos[1]);
                         break;
 
                     case 6: // Actualización lista de conectados.
@@ -131,11 +138,39 @@ namespace WindowsFormsApplication1
 
                     case 8: // Recibe la respuesta a la invitación.
                         string[] partida = trozos[1].Split(',');
-                        this.salas[0].dameConfirmacion(partida[0], partida[1]);
+                        this.salas[0].dameConfirmacion(partida[0], partida[1], trozos[2]);
                         break;
 
                     case 9: // Chat.
                         this.salas[0].dameChat(trozos[1]);
+                        break;
+
+                    case 10:
+                        this.salas[0].dameRespuestaPantallaUno(trozos[1]);
+                        break;
+
+                    case 11:
+                        this.salas[0].dameAbrirManual(trozos[1]);
+                        break;
+
+                    case 12:
+                        this.salas[0].dameRespuestaPantallaDos(trozos[1]);
+                        break;
+
+                    case 14:
+                        this.salas[0].dameMovimientoPantallaTres(trozos[1]);
+                        break;
+
+                    case 15:
+                        this.salas[0].dameRespuestaPantallaTres(trozos[1]);
+                        break;
+
+                    case 16:
+                        this.salas[0].dameRespuestaPantallaFinal(trozos[1]);
+                        break;
+
+                    case 19: // Fecha y hora de la última partida jugada por el usuario.
+                        this.salas[0].dameConsultaCuatro(trozos[1], trozos[2]);
                         break;
                 }
             }
@@ -147,12 +182,27 @@ namespace WindowsFormsApplication1
         {
             if (conectado == false)
             {
-                Registro cuenta = new Registro();
+                Registro cuenta = new Registro(puerto);
                 cuenta.ShowDialog();
             }
             else
             {
                 MessageBox.Show("Ya estas conectado. No te puedes registrar.");
+            }
+        }
+
+        // Se abre el Form para que un usuario se pueda dar de baja.
+        // Solo se puede registrar si aún no ha iniciado sesión.
+        private void darseBajaLabel_Click(object sender, EventArgs e)
+        {
+            if (conectado == false)
+            {
+                DarseBaja baja = new DarseBaja(puerto);
+                baja.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Ya estas conectado. No te puedes dar de baja.");
             }
         }
 
@@ -166,7 +216,7 @@ namespace WindowsFormsApplication1
                 {
                     // Conexión con la máquina virtual.
                     IPAddress direc = IPAddress.Parse("192.168.56.102");
-                    IPEndPoint ipep = new IPEndPoint(direc, 7128);
+                    IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     // Conexión con el entorno de producción.
                     //IPAddress direc = IPAddress.Parse("147.83.117.22");
                     //IPEndPoint ipep = new IPEndPoint(direc, 50069);
@@ -197,6 +247,9 @@ namespace WindowsFormsApplication1
                     // Enviamos al servidor el mensaje.
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
+
+                    usuarioBox.Text = null;
+                    contraseñaBox.Text = null;
                 }
                 else
                 {
@@ -221,6 +274,11 @@ namespace WindowsFormsApplication1
             s.ShowDialog();
             delegadoMostrar delegado2 = new delegadoMostrar(mostrarForm);// Volvemos a mostrar el Form una vez se cierra el de "SalaEspera".
             this.Invoke(delegado2);
+            string mensajeDesconectar = "0/" + usuario;
+            // Enviamos al servidor el mensaje.
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensajeDesconectar);
+            server.Send(msg);
+            conectado = false;
         }
 
         // Decoración.
@@ -272,7 +330,19 @@ namespace WindowsFormsApplication1
         // Decoración.
         private void registrarseLabel_MouseLeave(object sender, EventArgs e)
         {
-            registrarseLabel.ForeColor = Color.White;
+            registrarseLabel.ForeColor = Color.Black;
+        }
+
+        // Decoración.
+        private void darseBajaLabel_MouseEnter(object sender, EventArgs e)
+        {
+            darseBajaLabel.ForeColor = Color.DarkOrange;
+        }
+
+        // Decoración.
+        private void darseBajaLabel_MouseLeave(object sender, EventArgs e)
+        {
+            darseBajaLabel.ForeColor = Color.Black;
         }
 
         // Se cierra la conexión con el servidor y se le envía el nombre del usuario a desconectar.

@@ -118,40 +118,226 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\red.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="candadoo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\candadoo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="titol1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\titol1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="escape-room-en-casa-696x392" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\escape-room-en-casa-696x392.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="maze" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\maze.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="crop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\crop.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="titol" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\titol.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="redd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\redd.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DwYheL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DwYheL.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="papel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\papel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="1.3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1.3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="usuario" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\usuario.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PantallaTres" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaTres.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pista11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pista11.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosPrincipal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosPrincipal.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="crop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\crop.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="consultas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\consultas.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dsitracciones" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dsitracciones.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="papel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\papel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosJuegos1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosJuegos1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosJuegos2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosJuegos2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaFinal2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaFinal2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="play_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\play_pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaFinal1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaFinal1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_03.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_10.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="maze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\maze.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_09" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_09.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaUno3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaUno1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sonido" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sonido.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_07" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_07.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaFinal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaFinal.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pista12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pista1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_11.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_12.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosManual1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosManual1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosJuegos3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosJuegos3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Registro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Registro.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaTres2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaTres2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="darseBaja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\darseBaja.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaTres1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaTres1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosManual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosManual.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaUno2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaUno.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="consultas1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\consultas1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaUno1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaUno1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="brillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\brillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_01.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_02.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="titol1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\titol1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IniciarSesion1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IniciarSesion1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaUno4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaUno2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DwYheL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DwYheL.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="image_2020_11_26T15_22_24_804Z" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image_2020_11_26T15_22_24_804Z.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IniciarSesion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IniciarSesion.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Instrucciones" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Instrucciones.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosManual2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosManual2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_08.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1.1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1.1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_05.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1.2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1.2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_06.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="titol" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\titol.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaDosJuegos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaDosJuegos.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="uy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\uy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pista2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pista2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_Blanca" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_Blanca.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1.4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1.4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pieza_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pieza_04.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="game over" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\game over.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="redd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\redd.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pista1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pista1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enhorabuena" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enhorabuena.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="candadoo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\candadoo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rojo1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rojo1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PantallaUno" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PantallaUno.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="escape-room-en-casa-696x392" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\escape-room-en-casa-696x392.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Instrucciones1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Instrucciones1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="consultas2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\consultas2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

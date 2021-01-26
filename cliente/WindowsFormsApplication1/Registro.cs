@@ -17,10 +17,12 @@ namespace WindowsFormsApplication1
         Socket server;
         Thread atender;
         Boolean conectado = false;
+        int puerto;
 
-        public Registro()
+        public Registro(int puerto)
         {
             InitializeComponent();
+            this.puerto = puerto;
         }
 
         private void Registro_Load(object sender, EventArgs e)
@@ -61,7 +63,7 @@ namespace WindowsFormsApplication1
                 {
                     // Conexión con la máquina virtual.
                     IPAddress direc = IPAddress.Parse("192.168.56.102");
-                    IPEndPoint ipep = new IPEndPoint(direc, 7114);
+                    IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     // Conexión con el entorno de producción.
                     //IPAddress direc = IPAddress.Parse("147.83.117.22");
                     //IPEndPoint ipep = new IPEndPoint(direc, 50069);
@@ -87,11 +89,14 @@ namespace WindowsFormsApplication1
 
                     string usuario = usuarioBox.Text.Trim();
                     string contraseña = contraseñaBox.Text.Trim();
-                    string mensaje = "1/" + usuario + "/" + contraseña;
+                    string mensaje = "1/" + usuario + "/" + contraseña + "/";
 
                     // Enviamos al servidor el mensaje.
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
+
+                    usuarioBox.Text = null;
+                    contraseñaBox.Text = null;
                 }
                 else
                 {
@@ -120,7 +125,7 @@ namespace WindowsFormsApplication1
         // Decoración.
         private void iniciarLabel_MouseLeave(object sender, EventArgs e)
         {
-            iniciarLabel.ForeColor = Color.White;
+            iniciarLabel.ForeColor = Color.Black;
         }
     }
 }
