@@ -7,6 +7,8 @@ namespace WindowsFormsApplication1
 {
     static class Program
     {
+        public static IniciarSesión s;
+
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
@@ -15,7 +17,8 @@ namespace WindowsFormsApplication1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            s = new IniciarSesión();
+            Application.Run(s);
         }
     }
 }
