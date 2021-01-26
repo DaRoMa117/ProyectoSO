@@ -33,21 +33,27 @@
             // 
             // botonCerrar
             // 
-            this.botonCerrar.Location = new System.Drawing.Point(258, 470);
+            this.botonCerrar.BackColor = System.Drawing.Color.White;
+            this.botonCerrar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.botonCerrar.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue;
+            this.botonCerrar.FlatAppearance.BorderSize = 5;
+            this.botonCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.botonCerrar.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.botonCerrar.Location = new System.Drawing.Point(336, 634);
             this.botonCerrar.Name = "botonCerrar";
-            this.botonCerrar.Size = new System.Drawing.Size(147, 35);
+            this.botonCerrar.Size = new System.Drawing.Size(100, 50);
             this.botonCerrar.TabIndex = 0;
             this.botonCerrar.Text = "CERRAR";
-            this.botonCerrar.UseVisualStyleBackColor = true;
+            this.botonCerrar.UseVisualStyleBackColor = false;
             this.botonCerrar.Click += new System.EventHandler(this.botonCerrar_Click);
             // 
             // Instrucciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::WindowsFormsApplication1.Properties.Resources.image_2020_11_26T15_22_24_804Z;
+            this.BackgroundImage = global::WindowsFormsApplication1.Properties.Resources.Instrucciones1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(660, 551);
+            this.ClientSize = new System.Drawing.Size(768, 758);
             this.Controls.Add(this.botonCerrar);
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

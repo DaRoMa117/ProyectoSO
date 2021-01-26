@@ -16,8 +16,12 @@
 ## Versión 4
 * Versión 4 generada por Daniel Román Martín
 * Versión 4 verificada por Adrià Calvo Lozano
-<<<<<<< HEAD
 
 ## Versión 5
 * Versión 5 generada por Adrià Calvo Lozano
 * Versión 5 verificada por Andrea Pujals Bocero
+
+## Versión 6
+* Versión 6 generada por Andrea Pujals Bocero
+* Versión 6 verificada por Daniel Román Martín
+
